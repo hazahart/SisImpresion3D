@@ -77,7 +77,7 @@ dependencies {
     implementation(platform("io.github.jan-tennert.supabase:bom:3.3.0"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt") // Base de Datos
     implementation("io.github.jan-tennert.supabase:realtime-kt") // Tiempo real
-    implementation("io.github.jan-tennert.supabase:gotrue-kt")   // Login
+    implementation("io.github.jan-tennert.supabase:auth-kt")   // Login
 
     // Motor HTTP Ktor
     implementation("io.ktor:ktor-client-android:3.3.3")
