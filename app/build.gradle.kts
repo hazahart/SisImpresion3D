@@ -92,4 +92,11 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    // Haze (Efecto Glass)
+    implementation(libs.haze)
+    implementation(libs.haze.materials)
+
+    // Ktor HTTP
+    implementation(libs.ktor.client.okhttp)
 }
