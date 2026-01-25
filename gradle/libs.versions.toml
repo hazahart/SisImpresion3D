@@ -1,6 +1,8 @@
 [versions]
 agp = "9.0.0"
 bom = "3.3.0"
+credentialsPlayServices = "1.3.0"
+credentialsPlayServicesAuth = "1.5.0"
 haze = "1.7.1"
 hazeMaterials = "1.7.1"
 kotlin = "2.2.10"
@@ -17,10 +19,14 @@ composeBom = "2024.09.00"
 lifecycleViewmodelCompose = "2.10.0"
 materialIconsExtended = "1.7.8"
 navigationCompose = "2.9.6"
+credentials = "1.5.0"
+googleid = "1.2.0"
 
 [libraries]
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-credentials-play-services = { module = "androidx.credentials:credentials-play-services", version.ref = "credentialsPlayServices" }
+androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 auth-kt = { module = "io.github.jan-tennert.supabase:auth-kt" }
@@ -45,6 +51,8 @@ ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "k
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClientOkhttp" }
 realtime-kt = { module = "io.github.jan-tennert.supabase:realtime-kt" }
 postgrest-kt = { module = "io.github.jan-tennert.supabase:postgrest-kt" }
+androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
+googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

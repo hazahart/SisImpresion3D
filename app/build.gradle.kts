@@ -29,9 +29,11 @@ android {
             properties.load(FileInputStream(keystoreFile))
         val supabaseUrl = properties.getProperty("SUPABASE_URL") ?: ""
         val supabaseKey = properties.getProperty("SUPABASE_KEY") ?: ""
+        val googleClientID = properties.getProperty("GOOGLE_WEB_CLIENT_ID") ?: ""
 
         buildConfigField("String", "SUPABASE_URL", "\"$supabaseUrl\"")
         buildConfigField("String", "SUPABASE_KEY", "\"$supabaseKey\"")
+        buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"$googleClientID\"")
     }
 
     buildTypes {
@@ -65,6 +67,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.credentials)
+    implementation(libs.googleid)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -99,4 +103,11 @@ dependencies {
 
     // Ktor HTTP
     implementation(libs.ktor.client.okhttp)
+
+    // Credential Manager
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+
+    // Google Identity
+    implementation(libs.googleid)
 }
