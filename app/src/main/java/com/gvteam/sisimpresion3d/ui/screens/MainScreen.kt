@@ -1,27 +1,38 @@
 package com.gvteam.sisimpresion3d.ui.screens
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.gvteam.sisimpresion3d.ui.BottomScreen
 import com.gvteam.sisimpresion3d.ui.components.MaterialCard
 import com.gvteam.sisimpresion3d.ui.components.MaterialConsumptionDialog
 import com.gvteam.sisimpresion3d.ui.components.PrinterCard
 import com.gvteam.sisimpresion3d.viewmodel.MaterialViewModel
 import com.gvteam.sisimpresion3d.viewmodel.PrinterViewModel
+import com.gvteam.sisimpresion3d.viewmodel.UserViewModel
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
@@ -29,17 +40,30 @@ import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class,
+    ExperimentalSharedTransitionApi::class
+)
 @Composable
 fun MainScreen(
     printerViewModel: PrinterViewModel,
-    materialViewModel: MaterialViewModel
+    materialViewModel: MaterialViewModel,
+    userViewModel: UserViewModel,
+    onNavigateToProfile: () -> Unit,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope
 ) {
-    val screens = listOf(BottomScreen.Home, BottomScreen.Insumos, BottomScreen.Costos)
+    val screens = listOf(
+        BottomScreen.Home,
+        BottomScreen.Insumos,
+        BottomScreen.Costos
+    )
     val pagerState = rememberPagerState(pageCount = { screens.size })
     val scope = rememberCoroutineScope()
     val hazeState = remember { HazeState() }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
+    val userProfile by userViewModel.userProfile.collectAsState()
+    val userPhoto = userProfile?.avatarUrl
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -49,7 +73,7 @@ fun MainScreen(
             CenterAlignedTopAppBar(
                 modifier = Modifier.hazeEffect(
                     state = hazeState,
-                    style = HazeMaterials.thin()
+                    style = HazeMaterials.ultraThin()
                 ),
                 title = {
                     Text(
@@ -57,6 +81,46 @@ fun MainScreen(
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.titleLarge
                     )
+                },
+                actions = {
+                    Box(
+                        modifier = Modifier
+                            .padding(end = 16.dp)
+                            .size(40.dp)
+                            .clip(CircleShape)
+                            .clickable { onNavigateToProfile() }
+                    ) {
+                        if (userPhoto != null) {
+                            with(sharedTransitionScope) {
+                                AsyncImage(
+                                    model = userPhoto,
+                                    contentDescription = "Perfil",
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .sharedElement(
+                                            sharedContentState = rememberSharedContentState(key = "profile_image"),
+                                            animatedVisibilityScope = animatedVisibilityScope
+                                        )
+                                        .clip(CircleShape)
+                                        .border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.5f), CircleShape),
+                                    contentScale = ContentScale.Crop
+                                )
+                            }
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(MaterialTheme.colorScheme.surfaceVariant),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    Icons.Default.Person,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent,
@@ -70,7 +134,7 @@ fun MainScreen(
             NavigationBar(
                 modifier = Modifier.hazeEffect(
                     state = hazeState,
-                    style = HazeMaterials.regular()
+                    style = HazeMaterials.ultraThin()
                 ),
                 containerColor = Color.Transparent,
                 tonalElevation = 0.dp

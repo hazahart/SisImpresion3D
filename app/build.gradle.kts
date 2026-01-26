@@ -110,4 +110,18 @@ dependencies {
 
     // Google Identity
     implementation(libs.googleid)
+
+    // AsyncImage
+    implementation(libs.coil.compose)
+
+    // Hero Animation
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.compose.animation)
+    implementation(libs.androidx.navigation.compose)
+
+    // Storage
+    implementation(libs.storage.kt)
+
+    // Recortes
+    implementation("com.vanniktech:android-image-cropper:4.7.0")
 }
