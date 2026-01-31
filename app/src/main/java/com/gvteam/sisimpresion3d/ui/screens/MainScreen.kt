@@ -177,7 +177,7 @@ fun MainScreen(
                 when (page) {
                     0 -> PrintersContent(printerViewModel, innerPadding)
                     1 -> InsumosContent(materialViewModel, innerPadding)
-                    2 -> CostosContent(innerPadding)
+                    2 -> CostosScreen(innerPadding)
                 }
             }
         }
@@ -283,17 +283,5 @@ fun InsumosContent(viewModel: MaterialViewModel, paddingValues: PaddingValues) {
                 }
             )
         }
-    }
-}
-
-@Composable
-fun CostosContent(paddingValues: PaddingValues) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues),
-        contentAlignment = Alignment.Center
-    ) {
-        Text("Costos", color = MaterialTheme.colorScheme.onBackground)
     }
 }
